@@ -8,8 +8,6 @@ import { PingService } from './services/ping.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  title = 'app';
-
   constructor(private pingService: PingService) { }
 
   ngOnInit() {
