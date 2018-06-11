@@ -15,6 +15,9 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.pingService
       .getPong()
-      .subscribe(pong => console.log(pong.data));
+      .subscribe(
+        pong => console.log(pong.data),
+        error => console.log(error.message),
+      );
   }
 }
