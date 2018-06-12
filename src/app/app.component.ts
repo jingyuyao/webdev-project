@@ -2,7 +2,6 @@ import { Component, OnInit, AfterViewInit } from '@angular/core';
 
 import { User } from './models/user.model';
 import { IdentityService } from './services/identity.service';
-import { PingService } from './services/ping.service';
 import { UserService } from './services/user.service';
 
 @Component({
@@ -15,7 +14,6 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   constructor(
     private identityService: IdentityService,
-    private pingService: PingService,
     private userService: UserService,
   ) { }
 
@@ -39,13 +37,6 @@ export class AppComponent implements OnInit, AfterViewInit {
             );
         }
       });
-
-    this.pingService
-      .getPong()
-      .subscribe(
-        pong => console.log(pong.data),
-        error => console.log(error.message),
-      );
   }
 
   ngAfterViewInit() {
