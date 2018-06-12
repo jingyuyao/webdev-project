@@ -1,7 +1,6 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { Observable } from 'rxjs';
 
-import { IdentityService } from './services/identity.service';
+import { IdentityService, Identity } from './services/identity.service';
 import { PingService } from './services/ping.service';
 
 @Component({
@@ -10,8 +9,7 @@ import { PingService } from './services/ping.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit, AfterViewInit {
-  currentUser$: Observable<gapi.auth2.GoogleUser>;
-  isSignedIn$: Observable<boolean>;
+  currentIdentity: Identity;
 
   constructor(
     private identityService: IdentityService,
@@ -19,8 +17,9 @@ export class AppComponent implements OnInit, AfterViewInit {
   ) { }
 
   ngOnInit() {
-    this.currentUser$ = this.identityService.currentUser$;
-    this.isSignedIn$ = this.identityService.isSignedIn$;
+    this.identityService
+      .getCurrentIdentity()
+      .subscribe(identity => this.currentIdentity = identity);
 
     this.pingService
       .getPong()
@@ -31,7 +30,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.identityService.render('google-signin');
+    this.identityService.renderSignInButton('google-signin');
   }
 
   logOut() {

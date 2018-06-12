@@ -1,10 +1,10 @@
 import { Injectable, NgZone } from '@angular/core';
-import { ReplaySubject } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, ReplaySubject } from 'rxjs';
 
 /**
- * Handles integration with Google sign-in. Exposes functionalities as observables.
- * Fails silently when the API could not be loaded or when third-party cookies are blocked.
+ * Handles integration with Google sign-in. Exposes functionalities as
+ * observables. Fails silently when the API could not be loaded or when
+ * third-party cookies are blocked.
  *
  * References:
  * - https://stackoverflow.com/a/42782430
@@ -14,11 +14,11 @@ import { map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class IdentityService {
-  private static readonly CLIENT_ID = '941505616508-7942kmf4veq3rh8apuqj8itjch246rgb.apps.googleusercontent.com';
+  private static readonly CLIENT_ID =
+    '941505616508-7942kmf4veq3rh8apuqj8itjch246rgb.apps.googleusercontent.com';
   private static readonly SCOPE = 'profile email openid';
 
-  currentUser$ = new ReplaySubject<gapi.auth2.GoogleUser>(1);
-  isSignedIn$ = this.currentUser$.pipe(map(user => user.isSignedIn()));
+  private currentIdentity$ = new ReplaySubject<Identity>(1);
   private auth2$ = new ReplaySubject<gapi.auth2.GoogleAuth>(1);
 
   constructor(private zone: NgZone) {
@@ -31,7 +31,8 @@ export class IdentityService {
           });
 
           auth2.currentUser.listen(
-            user => this.zone.run(() => this.currentUser$.next(user)));
+            user => this.zone.run(
+              () => this.currentIdentity$.next(this.convert(user))));
 
           this.zone.run(() => {
             this.auth2$.next(auth2);
@@ -49,7 +50,11 @@ export class IdentityService {
     }
   }
 
-  render(elementId: string) {
+  getCurrentIdentity(): Observable<Identity> {
+    return this.currentIdentity$.asObservable();
+  }
+
+  renderSignInButton(elementId: string) {
     this.auth2$.subscribe(() => gapi.signin2.render(elementId, {
       scope: IdentityService.SCOPE,
     }));
@@ -60,4 +65,25 @@ export class IdentityService {
       auth2.signOut();
     });
   }
+
+  private convert(user: gapi.auth2.GoogleUser): Identity {
+    const signedIn = user.isSignedIn();
+    const profile = user.getBasicProfile();
+    const authResponse = user.getAuthResponse();
+    return {
+      signedIn: signedIn,
+      name: signedIn ? profile.getName() : null,
+      email: signedIn ? profile.getEmail() : null,
+      imageUrl: signedIn ? profile.getImageUrl() : null,
+      idToken: signedIn ? authResponse.id_token : null,
+    };
+  }
+}
+
+export interface Identity {
+  signedIn: boolean;
+  name?: string;
+  email?: string;
+  imageUrl?: string;
+  idToken?: string;
 }

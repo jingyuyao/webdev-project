@@ -2,14 +2,14 @@
   <span class="toolbar-title">HSDecks</span>
   <div>
     <button mat-raised-button
-      *ngIf="isSignedIn$ | async" (click)="logOut()">
+      *ngIf="currentIdentity?.signedIn" (click)="logOut()">
       Logout
     </button>
-    <div id="google-signin" [hidden]="isSignedIn$ | async"></div>
+    <div id="google-signin" [hidden]="currentIdentity?.signedIn"></div>
   </div>
 </mat-toolbar>
-<span *ngIf="isSignedIn$ | async; else notSignedIn">
-  Current user: {{(currentUser$ | async).getBasicProfile().getName()}}
+<span *ngIf="currentIdentity?.signedIn; else notSignedIn">
+  Current identity: {{currentIdentity.name}}
 </span>
 <ng-template #notSignedIn>
   <span>Not signed in</span>
