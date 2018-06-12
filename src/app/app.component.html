@@ -1,5 +1,18 @@
 <mat-toolbar color="primary">
   <span class="toolbar-title">HSDecks</span>
-  <button mat-raised-button>Login</button>
+  <div>
+    <button mat-raised-button
+      *ngIf="identityService.isSignedIn$ | async"
+      (click)="identityService.logOut()">
+      Logout
+    </button>
+    <div id="google-signin" [hidden]="identityService.isSignedIn$ | async"></div>
+  </div>
 </mat-toolbar>
+<span *ngIf="identityService.isSignedIn$ | async; else notSignedIn">
+  Current user: {{(identityService.currentUser$ | async).getBasicProfile().getName()}}
+</span>
+<ng-template #notSignedIn>
+  <span>Not signed in</span>
+</ng-template>
 <router-outlet></router-outlet>

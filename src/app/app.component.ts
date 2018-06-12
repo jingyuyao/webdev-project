@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 
+import { IdentityService } from './services/identity.service';
 import { PingService } from './services/ping.service';
 
 @Component({
@@ -7,8 +8,11 @@ import { PingService } from './services/ping.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
-  constructor(private pingService: PingService) { }
+export class AppComponent implements OnInit, AfterViewInit {
+  constructor(
+    private identityService: IdentityService,
+    private pingService: PingService,
+  ) { }
 
   ngOnInit() {
     this.pingService
@@ -17,5 +21,9 @@ export class AppComponent implements OnInit {
         pong => console.log(pong.data),
         error => console.log(error.message),
       );
+  }
+
+  ngAfterViewInit() {
+    this.identityService.render('google-signin');
   }
 }
