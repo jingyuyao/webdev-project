@@ -14,9 +14,9 @@ import { Observable, ReplaySubject } from 'rxjs';
   providedIn: 'root'
 })
 export class IdentityService {
-  private static readonly CLIENT_ID =
+  private static readonly GOOGLE_CLIENT_ID =
     '941505616508-7942kmf4veq3rh8apuqj8itjch246rgb.apps.googleusercontent.com';
-  private static readonly SCOPE = 'profile email openid';
+  private static readonly GOOGLE_SCOPE = 'profile email openid';
 
   private currentIdentity$ = new ReplaySubject<Identity>(1);
   private auth2$ = new ReplaySubject<gapi.auth2.GoogleAuth>(1);
@@ -26,8 +26,8 @@ export class IdentityService {
       gapi.load('auth2', {
         callback: () => {
           const auth2 = gapi.auth2.init({
-            client_id: IdentityService.CLIENT_ID,
-            scope: IdentityService.SCOPE,
+            client_id: IdentityService.GOOGLE_CLIENT_ID,
+            scope: IdentityService.GOOGLE_SCOPE,
           });
 
           auth2.currentUser.listen(
@@ -56,7 +56,7 @@ export class IdentityService {
 
   renderSignInButton(elementId: string) {
     this.auth2$.subscribe(() => gapi.signin2.render(elementId, {
-      scope: IdentityService.SCOPE,
+      scope: IdentityService.GOOGLE_SCOPE,
     }));
   }
 
