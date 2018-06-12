@@ -74,7 +74,6 @@ export class IdentityService {
       signedIn: signedIn,
       name: signedIn ? profile.getName() : null,
       email: signedIn ? profile.getEmail() : null,
-      imageUrl: signedIn ? profile.getImageUrl() : null,
       idToken: signedIn ? authResponse.id_token : null,
     };
   }
@@ -84,6 +83,5 @@ export interface Identity {
   signedIn: boolean;
   name?: string;
   email?: string;
-  imageUrl?: string;
   idToken?: string;
 }
