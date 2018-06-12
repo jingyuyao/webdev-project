@@ -71,7 +71,7 @@ export class IdentityService {
     const profile = user.getBasicProfile();
     const authResponse = user.getAuthResponse();
     return {
-      identityProvider: 'GOOGLE',
+      identityProvider: IdentityProvider.GOOGLE,
       signedIn: signedIn,
       name: signedIn ? profile.getName() : null,
       email: signedIn ? profile.getEmail() : null,
@@ -80,8 +80,12 @@ export class IdentityService {
   }
 }
 
+export enum IdentityProvider {
+  GOOGLE = 'GOOGLE',
+}
+
 export interface Identity {
-  identityProvider: string;
+  identityProvider: IdentityProvider;
   signedIn: boolean;
   name?: string;
   email?: string;
