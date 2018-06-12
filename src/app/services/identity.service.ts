@@ -1,5 +1,6 @@
 import { Injectable, NgZone } from '@angular/core';
 import { ReplaySubject } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 /**
  * Handles integration with Google sign-in. Exposes functionalities as observables.
@@ -16,8 +17,8 @@ export class IdentityService {
   private static readonly CLIENT_ID = '941505616508-7942kmf4veq3rh8apuqj8itjch246rgb.apps.googleusercontent.com';
   private static readonly SCOPE = 'profile email openid';
 
-  isSignedIn$ = new ReplaySubject<boolean>(1);
   currentUser$ = new ReplaySubject<gapi.auth2.GoogleUser>(1);
+  isSignedIn$ = this.currentUser$.pipe(map(user => user.isSignedIn()));
   private auth2$ = new ReplaySubject<gapi.auth2.GoogleAuth>(1);
 
   constructor(private zone: NgZone) {
@@ -29,16 +30,6 @@ export class IdentityService {
             scope: IdentityService.SCOPE,
           });
 
-          if (auth2.isSignedIn.get()) {
-            auth2.signIn();
-          }
-
-          this.zone.run(() => {
-            this.isSignedIn$.next(auth2.isSignedIn.get());
-          });
-
-          auth2.isSignedIn.listen(
-            signedIn => this.zone.run(() => this.isSignedIn$.next(signedIn)));
           auth2.currentUser.listen(
             user => this.zone.run(() => this.currentUser$.next(user)));
 
