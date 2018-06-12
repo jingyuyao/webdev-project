@@ -1,6 +1,8 @@
 import { Injectable, NgZone } from '@angular/core';
 import { Observable, ReplaySubject } from 'rxjs';
 
+import { Identity, IdentityProvider } from '../models/identity.model';
+
 /**
  * Handles integration with Google sign-in. Exposes functionalities as
  * observables. Fails silently when the API could not be loaded or when
@@ -78,16 +80,4 @@ export class IdentityService {
       idToken: signedIn ? authResponse.id_token : null,
     };
   }
-}
-
-export enum IdentityProvider {
-  GOOGLE = 'GOOGLE',
-}
-
-export interface Identity {
-  identityProvider: IdentityProvider;
-  signedIn: boolean;
-  name?: string;
-  email?: string;
-  idToken?: string;
 }
