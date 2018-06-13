@@ -22,7 +22,7 @@ export class AuthGuard implements CanActivate {
         map(user => !!user),
         tap(loggedIn => {
           if (!loggedIn) {
-            alert(`${state.url} requires authentication!`);
+            alert(`You need to be logged in to visit ${state.url}`);
             this.router.navigate(['/']);
           }
         }),

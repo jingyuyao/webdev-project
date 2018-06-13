@@ -24,7 +24,7 @@ export class ProfilePageComponent implements OnInit {
       .currentUser()
       .subscribe(user => {
         this.user = user;
-        if (user == null) {
+        if (!user) {
           this.router.navigate(['/']);
         }
       });
