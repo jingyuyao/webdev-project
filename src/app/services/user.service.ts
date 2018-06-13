@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { map, switchMap, catchError, shareReplay } from 'rxjs/operators';
+import { switchMap, map, catchError, startWith, distinctUntilChanged, shareReplay } from 'rxjs/operators';
 
 import { Identity } from '../models/identity.model';
 import { User } from '../models/user.model';
@@ -29,11 +29,14 @@ export class UserService {
         }
       }),
       catchError(() => of(null)),
+      startWith(null),
+      distinctUntilChanged(),
       // Save the last user for late subscribers.
       shareReplay(1),
     );
   }
 
+  /** Emits the latest user or null if not logged in. */
   currentUser(): Observable<User> {
     return this.currentUser$;
   }

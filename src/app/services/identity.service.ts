@@ -52,7 +52,11 @@ export class IdentityService {
     }
   }
 
-  /** Should only be used by UserService. */
+  /**
+   * Emits the latest identity.
+   *
+   * Should only be used by UserService.
+   */
   currentIdentity(): Observable<Identity> {
     return this.currentIdentity$.asObservable();
   }
@@ -72,11 +76,11 @@ export class IdentityService {
     const profile = user.getBasicProfile();
     const authResponse = user.getAuthResponse();
     return {
-      identityProvider: IdentityProvider.GOOGLE,
       loggedIn: loggedIn,
-      name: loggedIn ? profile.getName() : null,
-      email: loggedIn ? profile.getEmail() : null,
-      idToken: loggedIn ? authResponse.id_token : null,
+      identityProvider: loggedIn ? IdentityProvider.GOOGLE : undefined,
+      name: loggedIn ? profile.getName() : undefined,
+      email: loggedIn ? profile.getEmail() : undefined,
+      idToken: loggedIn ? authResponse.id_token : undefined,
     };
   }
 }
