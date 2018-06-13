@@ -7,11 +7,13 @@ import { AppMaterialModule } from './app-material.module';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './/app-routing.module';
 import { ProfilePageComponent } from './profile-page/profile-page.component';
+import { HomePageComponent } from './home-page/home-page.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ProfilePageComponent
+    ProfilePageComponent,
+    HomePageComponent
   ],
   imports: [
     BrowserModule,
