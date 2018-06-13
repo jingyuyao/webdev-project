@@ -19,6 +19,7 @@ export class UserService {
     private configService: ConfigService,
     private identityService: IdentityService,
   ) {
+    // Sync current user with current identity.
     this.currentUser$ = identityService.currentIdentity().pipe(
       switchMap(identity => {
         if (identity.loggedIn) {
@@ -28,21 +29,13 @@ export class UserService {
         }
       }),
       catchError(() => of(null)),
+      // Save the last user for late subscribers.
       shareReplay(1),
     );
   }
 
   currentUser(): Observable<User> {
     return this.currentUser$;
-  }
-
-  getProfile(): Observable<User> {
-    return this.http.get<User>(
-      this.configService.getApiUrl('/api/profile'),
-      {
-        withCredentials: true,
-      },
-    );
   }
 
   private logInOrRegister(identity: Identity): Observable<User> {
