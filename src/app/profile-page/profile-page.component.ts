@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 import { User } from '../models/user.model';
 import { IdentityService } from '../services/identity.service';
-import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-profile-page',
@@ -15,19 +14,12 @@ export class ProfilePageComponent implements OnInit {
 
   constructor(
     private router: Router,
+    private route: ActivatedRoute,
     private identityService: IdentityService,
-    private userService: UserService,
   ) { }
 
   ngOnInit() {
-    this.userService
-      .currentUser()
-      .subscribe(user => {
-        this.user = user;
-        if (!user) {
-          this.router.navigate(['/']);
-        }
-      });
+    this.user = this.route.snapshot.data.user;
   }
 
   userDebug(): string {
@@ -36,5 +28,6 @@ export class ProfilePageComponent implements OnInit {
 
   logOut() {
     this.identityService.logOut();
+    this.router.navigate(['/']);
   }
 }

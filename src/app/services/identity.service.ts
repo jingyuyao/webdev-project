@@ -1,5 +1,6 @@
 import { Injectable, NgZone } from '@angular/core';
 import { Observable, ReplaySubject } from 'rxjs';
+import { defaultIfEmpty } from 'rxjs/operators';
 
 import { Identity, IdentityProvider } from '../models/identity.model';
 
@@ -43,22 +44,26 @@ export class IdentityService {
         },
         onerror: () => this.zone.run(() => {
           console.error('unable to load gapi.auth2');
+          this.currentIdentity$.complete();
           this.auth2$.complete();
         }),
       });
     } else {
       console.error('gapi does not exist');
+      this.currentIdentity$.complete();
       this.auth2$.complete();
     }
   }
 
   /**
-   * Emits the latest identity.
+   * Emits the latest identity. Guaranteed to always emit at least once.
    *
    * Should only be used by UserService.
    */
   currentIdentity(): Observable<Identity> {
-    return this.currentIdentity$.asObservable();
+    return this.currentIdentity$.pipe(
+      defaultIfEmpty({loggedIn: false}),
+    );
   }
 
   renderLogInButton(elementId: string) {
