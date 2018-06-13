@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { first } from 'rxjs/operators';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 
 import { IdentityService } from './services/identity.service';
 import { UserService } from './services/user.service';
@@ -9,7 +8,7 @@ import { UserService } from './services/user.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, AfterViewInit {
   loggedIn = false;
 
   constructor(
@@ -19,45 +18,11 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.userService
-      .getProfile()
-      .subscribe(
-        () => this.loggedIn = true,
-        () => {
-          this.identityService
-            .currentIdentity()
-            .pipe(first())
-            .subscribe(identity => {
-              if (identity.loggedIn) {
-                this.userService
-                  .logInOrRegister(identity)
-                  .subscribe(
-                    () => this.loggedIn = true,
-                    () => this.renderLogInButton(),
-                  );
-              } else {
-                this.renderLogInButton();
-              }
-            });
-        }
-      );
+      .currentUser()
+      .subscribe(user => this.loggedIn = !!user);
   }
 
-  private renderLogInButton() {
+  ngAfterViewInit() {
     this.identityService.renderLogInButton('google-login');
-    this.identityService
-      .currentIdentity()
-      .pipe(first(identity => identity.loggedIn))
-      .subscribe(identity =>
-        this.userService
-          .logInOrRegister(identity)
-          .subscribe(
-            () => this.loggedIn = true,
-            () => {
-              this.identityService
-                .logOut()
-                .subscribe(() => alert('log in failed'));
-            }
-          )
-      );
   }
 }

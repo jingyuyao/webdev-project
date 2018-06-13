@@ -1,6 +1,5 @@
 import { Injectable, NgZone } from '@angular/core';
 import { Observable, ReplaySubject } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
 
 import { Identity, IdentityProvider } from '../models/identity.model';
 
@@ -21,8 +20,8 @@ export class IdentityService {
     '941505616508-7942kmf4veq3rh8apuqj8itjch246rgb.apps.googleusercontent.com';
   private static readonly GOOGLE_SCOPE = 'profile email openid';
 
-  private currentIdentity$ = new ReplaySubject<Identity>(1);
-  private auth2$ = new ReplaySubject<gapi.auth2.GoogleAuth>(1);
+  private readonly currentIdentity$ = new ReplaySubject<Identity>(1);
+  private readonly auth2$ = new ReplaySubject<gapi.auth2.GoogleAuth>(1);
 
   constructor(private zone: NgZone) {
     if (gapi) {
@@ -53,6 +52,7 @@ export class IdentityService {
     }
   }
 
+  /** Should only be used by UserService. */
   currentIdentity(): Observable<Identity> {
     return this.currentIdentity$.asObservable();
   }
@@ -63,8 +63,8 @@ export class IdentityService {
     }));
   }
 
-  logOut(): Observable<any> {
-    return this.auth2$.pipe(switchMap(auth2 => auth2.signOut()));
+  logOut() {
+    return this.auth2$.subscribe(auth2 => auth2.signOut());
   }
 
   private convert(user: gapi.auth2.GoogleUser): Identity {
