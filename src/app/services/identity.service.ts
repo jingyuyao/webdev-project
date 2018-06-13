@@ -1,5 +1,6 @@
 import { Injectable, NgZone } from '@angular/core';
 import { Observable, ReplaySubject } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 
 import { Identity, IdentityProvider } from '../models/identity.model';
 
@@ -52,32 +53,30 @@ export class IdentityService {
     }
   }
 
-  getCurrentIdentity(): Observable<Identity> {
+  currentIdentity(): Observable<Identity> {
     return this.currentIdentity$.asObservable();
   }
 
-  renderSignInButton(elementId: string) {
+  renderLogInButton(elementId: string) {
     this.auth2$.subscribe(() => gapi.signin2.render(elementId, {
       scope: IdentityService.GOOGLE_SCOPE,
     }));
   }
 
-  logOut() {
-    this.auth2$.subscribe(auth2 => {
-      auth2.signOut();
-    });
+  logOut(): Observable<any> {
+    return this.auth2$.pipe(switchMap(auth2 => auth2.signOut()));
   }
 
   private convert(user: gapi.auth2.GoogleUser): Identity {
-    const signedIn = user.isSignedIn();
+    const loggedIn = user.isSignedIn();
     const profile = user.getBasicProfile();
     const authResponse = user.getAuthResponse();
     return {
       identityProvider: IdentityProvider.GOOGLE,
-      signedIn: signedIn,
-      name: signedIn ? profile.getName() : null,
-      email: signedIn ? profile.getEmail() : null,
-      idToken: signedIn ? authResponse.id_token : null,
+      loggedIn: loggedIn,
+      name: loggedIn ? profile.getName() : null,
+      email: loggedIn ? profile.getEmail() : null,
+      idToken: loggedIn ? authResponse.id_token : null,
     };
   }
 }

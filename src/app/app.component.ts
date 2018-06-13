@@ -1,6 +1,6 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { first } from 'rxjs/operators';
 
-import { User } from './models/user.model';
 import { IdentityService } from './services/identity.service';
 import { UserService } from './services/user.service';
 
@@ -9,8 +9,8 @@ import { UserService } from './services/user.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit, AfterViewInit {
-  currentUser: User;
+export class AppComponent implements OnInit {
+  loggedIn = false;
 
   constructor(
     private identityService: IdentityService,
@@ -18,36 +18,46 @@ export class AppComponent implements OnInit, AfterViewInit {
   ) { }
 
   ngOnInit() {
-    this.identityService
-      .getCurrentIdentity()
-      .subscribe(identity => {
-        if (identity.signedIn) {
-          this.userService
-            .logInOrRegister(identity)
-            .subscribe(
-              user => this.currentUser = user,
-              () => this.currentUser = null,
-            );
-        } else {
-          this.userService
-            .logOut()
-            .subscribe(
-              () => this.currentUser = null,
-              () => this.currentUser = null,
-            );
+    this.userService
+      .getProfile()
+      .subscribe(
+        () => this.loggedIn = true,
+        () => {
+          this.identityService
+            .currentIdentity()
+            .pipe(first())
+            .subscribe(identity => {
+              if (identity.loggedIn) {
+                this.userService
+                  .logInOrRegister(identity)
+                  .subscribe(
+                    () => this.loggedIn = true,
+                    () => this.renderLogInButton(),
+                  );
+              } else {
+                this.renderLogInButton();
+              }
+            });
         }
-      });
+      );
   }
 
-  ngAfterViewInit() {
-    this.identityService.renderSignInButton('google-signin');
-  }
-
-  logOut() {
-    this.identityService.logOut();
-  }
-
-  currentUserDebug(): string {
-    return JSON.stringify(this.currentUser);
+  private renderLogInButton() {
+    this.identityService.renderLogInButton('google-login');
+    this.identityService
+      .currentIdentity()
+      .pipe(first(identity => identity.loggedIn))
+      .subscribe(identity =>
+        this.userService
+          .logInOrRegister(identity)
+          .subscribe(
+            () => this.loggedIn = true,
+            () => {
+              this.identityService
+                .logOut()
+                .subscribe(() => alert('log in failed'));
+            }
+          )
+      );
   }
 }

@@ -1,6 +1,6 @@
 export interface Identity {
   identityProvider: IdentityProvider;
-  signedIn: boolean;
+  loggedIn: boolean;
   name?: string;
   email?: string;
   idToken?: string;

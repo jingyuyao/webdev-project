@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-import { ConfigService } from './config.service';
 import { Identity } from '../models/identity.model';
 import { User } from '../models/user.model';
+import { ConfigService } from './config.service';
 
 @Injectable({
   providedIn: 'root'
@@ -24,13 +24,15 @@ export class UserService {
       },
       {
         headers: new HttpHeaders({'Content-Type': 'application/json'}),
+        withCredentials: true,
       },
     );
   }
 
-  logOut(): Observable<void> {
-    return this.http.post<void>(
+  logOut(): Observable<any> {
+    return this.http.post<any>(
       this.configService.getApiUrl('/api/logOut'),
+      null,
       {
         withCredentials: true,
       },

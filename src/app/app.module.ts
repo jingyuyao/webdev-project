@@ -6,10 +6,12 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppMaterialModule } from './app-material.module';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './/app-routing.module';
+import { ProfilePageComponent } from './profile-page/profile-page.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    ProfilePageComponent
   ],
   imports: [
     BrowserModule,

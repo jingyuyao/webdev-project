@@ -1,0 +1,7 @@
+<div *ngIf="user; else loading">
+  Current user: {{userDebug()}}
+</div>
+<ng-template #loading>
+  <div>Loading</div>
+</ng-template>
+<button mat-raised-button (click)="logOut()">Logout</button>
