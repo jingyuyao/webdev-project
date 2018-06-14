@@ -17,15 +17,16 @@ export class UserResolver implements Resolve<User> {
 
   resolve(
     next: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): Observable<User> {
-      return this.userService.currentUser().pipe(
-        first(),
-        tap(user => {
-          if (!user) {
-            alert(`You need to be logged in to visit ${state.url}`);
-            this.router.navigate(['/']);
-          }
-        }),
-      );
+    state: RouterStateSnapshot,
+  ): Observable<User> {
+    return this.userService.currentUser().pipe(
+      first(),
+      tap(user => {
+        if (!user) {
+          alert(`You need to be logged in to visit ${state.url}`);
+          this.router.navigate(['/']);
+        }
+      }),
+    );
   }
 }
