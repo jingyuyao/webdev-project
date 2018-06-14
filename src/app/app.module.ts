@@ -8,12 +8,14 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './/app-routing.module';
 import { ProfilePageComponent } from './profile-page/profile-page.component';
 import { HomePageComponent } from './home-page/home-page.component';
+import { DeckListComponent } from './deck-list/deck-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ProfilePageComponent,
-    HomePageComponent
+    HomePageComponent,
+    DeckListComponent
   ],
   imports: [
     BrowserModule,
