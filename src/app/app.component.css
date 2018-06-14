@@ -1,3 +1,11 @@
 .toolbar-title {
   flex: auto;
 }
+
+.hidden {
+  display: none;
+}
+
+a, #google-login {
+  margin-left: 10px;
+}

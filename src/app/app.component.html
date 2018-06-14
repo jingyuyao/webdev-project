@@ -1,10 +1,17 @@
 <mat-toolbar color="primary">
   <span class="toolbar-title">HSDecks</span>
-  <div>
-    <a mat-raised-button *ngIf="loggedIn" routerLink="/profile">
-      Profile
-    </a>
-    <div id="google-login" [hidden]="loggedIn"></div>
-  </div>
+  <a mat-raised-button
+     routerLink="/"
+     routerLinkActive="hidden"
+     [routerLinkActiveOptions]="{exact: true}">
+    Home
+  </a>
+  <a mat-raised-button
+    *ngIf="loggedIn"
+    routerLink="/profile"
+    routerLinkActive="hidden">
+    Profile
+  </a>
+  <div id="google-login" [hidden]="loggedIn"></div>
 </mat-toolbar>
 <router-outlet></router-outlet>
