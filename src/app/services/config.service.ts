@@ -9,7 +9,7 @@ export class ConfigService {
 
   constructor() { }
 
-  getApiUrl(path: string): string {
-    return environment.apiHost + path;
+  getApiHost(): string {
+    return environment.apiHost;
   }
 }

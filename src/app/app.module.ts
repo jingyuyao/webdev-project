@@ -4,8 +4,9 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 
 import { AppMaterialModule } from './app-material.module';
+import { AppRoutingModule } from './app-routing.module';
+import { httpInterceptorProviders } from './http-interceptors';
 import { AppComponent } from './app.component';
-import { AppRoutingModule } from './/app-routing.module';
 import { ProfilePageComponent } from './profile-page/profile-page.component';
 import { HomePageComponent } from './home-page/home-page.component';
 import { DeckListComponent } from './deck-list/deck-list.component';
@@ -26,7 +27,9 @@ import { DeckViewerPageComponent } from './deck-viewer-page/deck-viewer-page.com
     AppMaterialModule,
     AppRoutingModule,
   ],
-  providers: [],
+  providers: [
+    httpInterceptorProviders,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

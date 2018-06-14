@@ -5,7 +5,6 @@ import { switchMap, map, catchError, distinctUntilChanged, shareReplay } from 'r
 
 import { Identity } from '../models/identity.model';
 import { User } from '../models/user.model';
-import { ConfigService } from './config.service';
 import { IdentityService } from './identity.service';
 
 @Injectable({
@@ -16,7 +15,6 @@ export class UserService {
 
   constructor(
     private http: HttpClient,
-    private configService: ConfigService,
     private identityService: IdentityService,
   ) {
     // Sync current user with current identity.
@@ -42,7 +40,7 @@ export class UserService {
 
   private logInOrRegister(identity: Identity): Observable<User> {
     return this.http.post<User>(
-      this.configService.getApiUrl('/api/logInOrRegister'),
+      '/api/logInOrRegister',
       {
         identityProvider: identity.identityProvider,
         idToken: identity.idToken,
@@ -56,7 +54,7 @@ export class UserService {
 
   private logOut(): Observable<any> {
     return this.http.post<any>(
-      this.configService.getApiUrl('/api/logOut'),
+      '/api/logOut',
       null,
       {
         withCredentials: true,
