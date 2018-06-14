@@ -1,2 +1,5 @@
 <h3>{{deck.title}}</h3>
 <p>{{deck.description}}</p>
+<ul>
+  <li *ngFor="let card of cards">{{card.id}}</li>
+</ul>
