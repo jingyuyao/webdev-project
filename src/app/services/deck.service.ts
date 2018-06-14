@@ -29,4 +29,15 @@ export class DeckService {
   findCardsByDeckId(id: number): Observable<Card[]> {
     return this.http.get<Card[]>(`/api/deck/${id}/cards`);
   }
+
+  createDeck(deck: Deck): Observable<Deck> {
+    return this.http.post<Deck>(
+      '/api/deck',
+      deck,
+      {
+        headers: new HttpHeaders({'Content-Type': 'application/json'}),
+        withCredentials: true,
+      },
+    );
+  }
 }

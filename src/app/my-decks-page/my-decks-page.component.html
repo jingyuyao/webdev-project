@@ -1,1 +1,12 @@
+<form #newDeckForm="ngForm" (submit)="createNewDeck(newDeckForm)">
+  <input
+    type="text" required
+    name="title" [(ngModel)]="newDeck.title">
+  <input
+    type="text" required
+    name="description" [(ngModel)]="newDeck.description">
+  <button type="submit" [disabled]="!newDeckForm.form.valid">
+    Create deck
+  </button>
+</form>
 <app-deck-list [decks]="decks"></app-deck-list>
