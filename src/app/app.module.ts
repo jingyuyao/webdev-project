@@ -9,6 +9,7 @@ import { AppRoutingModule } from './/app-routing.module';
 import { ProfilePageComponent } from './profile-page/profile-page.component';
 import { HomePageComponent } from './home-page/home-page.component';
 import { DeckListComponent } from './deck-list/deck-list.component';
+import { DeckViewerPageComponent } from './deck-viewer-page/deck-viewer-page.component';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { DeckListComponent } from './deck-list/deck-list.component';
     ProfilePageComponent,
     HomePageComponent,
     DeckListComponent,
+    DeckViewerPageComponent,
   ],
   imports: [
     BrowserModule,
