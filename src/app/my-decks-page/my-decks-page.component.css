@@ -1,0 +1,9 @@
+form {
+  align-items: center;
+  display: flex;
+}
+
+.description-field {
+  flex: auto;
+  margin: 0 10px;
+}

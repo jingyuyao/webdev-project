@@ -1,11 +1,17 @@
 <form #newDeckForm="ngForm" (submit)="createNewDeck(newDeckForm)">
-  <input
-    type="text" required
-    name="title" [(ngModel)]="newDeck.title">
-  <input
-    type="text" required
-    name="description" [(ngModel)]="newDeck.description">
-  <button type="submit" [disabled]="!newDeckForm.form.valid">
+  <mat-form-field>
+    <input
+      matInput type="text" required placeholder="Title" 
+      name="title" [(ngModel)]="newDeck.title">
+  </mat-form-field>
+  <mat-form-field class="description-field">
+    <input
+      matInput type="text" required placeholder="Description" 
+      name="description" [(ngModel)]="newDeck.description">
+  </mat-form-field>
+  <button
+    mat-raised-button type="submit" color="primary"
+    [disabled]="!newDeckForm.form.valid">
     Create deck
   </button>
 </form>
