@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { UserResolver } from './resolvers/user.resolver';
+import { DeckResolver } from './resolvers/deck.resolver';
 import { HomePageComponent } from './home-page/home-page.component';
 import { ProfilePageComponent } from './profile-page/profile-page.component';
 import { DeckViewerPageComponent } from './deck-viewer-page/deck-viewer-page.component';
@@ -22,6 +23,9 @@ const routes: Routes = [
   {
     path: 'deck/:id',
     component: DeckViewerPageComponent,
+    resolve: {
+      deck: DeckResolver,
+    },
   },
   {
     path: '**',

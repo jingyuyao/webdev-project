@@ -33,7 +33,11 @@ export class UserService {
     );
   }
 
-  /** Emits the latest user or null if not logged in. */
+  /**
+   * Emits the latest user or null if not logged in.
+   *
+   * Will not produce errors.
+   */
   currentUser(): Observable<User> {
     return this.currentUser$;
   }
