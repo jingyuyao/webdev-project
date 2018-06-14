@@ -18,6 +18,10 @@ export class DeckService {
     return this.http.get<Deck[]>('/api/deck');
   }
 
+  findAllByUserId(userId: number): Observable<Deck[]> {
+    return this.http.get<Deck[]>(`/api/user/${userId}/decks`);
+  }
+
   findById(id: number): Observable<Deck> {
     return this.http.get<Deck>(`/api/deck/${id}`);
   }
