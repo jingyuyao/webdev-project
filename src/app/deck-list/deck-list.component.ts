@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 import { Deck } from '../models/deck.model';
 
@@ -9,7 +9,6 @@ import { Deck } from '../models/deck.model';
 })
 export class DeckListComponent {
   @Input() decks: Deck[];
-  @Output() selected = new EventEmitter<Deck>();
 
   constructor() { }
 }

@@ -16,8 +16,4 @@ export class HomePageComponent implements OnInit {
   ngOnInit() {
     this.deckService.findAll().subscribe(decks => this.decks = decks);
   }
-
-  viewDeck(deck: Deck) {
-    console.log(deck);
-  }
 }
