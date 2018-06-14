@@ -12,6 +12,12 @@
     routerLinkActive="hidden">
     Profile
   </a>
+  <a mat-raised-button
+    *ngIf="loggedIn"
+    routerLink="/my-decks"
+    routerLinkActive="hidden">
+    My decks
+  </a>
   <div id="google-login" [hidden]="loggedIn"></div>
 </mat-toolbar>
 <router-outlet></router-outlet>

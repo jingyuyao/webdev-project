@@ -12,6 +12,7 @@ import { HomePageComponent } from './home-page/home-page.component';
 import { DeckListComponent } from './deck-list/deck-list.component';
 import { DeckViewerPageComponent } from './deck-viewer-page/deck-viewer-page.component';
 import { HsCardTableComponent } from './hs-card-table/hs-card-table.component';
+import { MyDecksPageComponent } from './my-decks-page/my-decks-page.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { HsCardTableComponent } from './hs-card-table/hs-card-table.component';
     DeckListComponent,
     DeckViewerPageComponent,
     HsCardTableComponent,
+    MyDecksPageComponent,
   ],
   imports: [
     BrowserModule,

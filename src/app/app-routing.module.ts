@@ -5,6 +5,7 @@ import { UserResolver } from './resolvers/user.resolver';
 import { DeckResolver } from './resolvers/deck.resolver';
 import { HomePageComponent } from './home-page/home-page.component';
 import { ProfilePageComponent } from './profile-page/profile-page.component';
+import { MyDecksPageComponent } from './my-decks-page/my-decks-page.component';
 import { DeckViewerPageComponent } from './deck-viewer-page/deck-viewer-page.component';
 
 const routes: Routes = [
@@ -16,6 +17,13 @@ const routes: Routes = [
   {
     path: 'profile',
     component: ProfilePageComponent,
+    resolve: {
+      user: UserResolver,
+    },
+  },
+  {
+    path: 'my-decks',
+    component: MyDecksPageComponent,
     resolve: {
       user: UserResolver,
     },
