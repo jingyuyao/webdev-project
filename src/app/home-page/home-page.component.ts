@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
+import { Deck } from '../models/deck.model';
 import { DeckService } from '../services/deck.service';
 
 @Component({
@@ -8,10 +9,11 @@ import { DeckService } from '../services/deck.service';
   styleUrls: ['./home-page.component.css']
 })
 export class HomePageComponent implements OnInit {
+  decks: Deck[] = [];
 
   constructor(private deckService: DeckService) { }
 
   ngOnInit() {
-    this.deckService.findAll().subscribe(decks => console.log(decks));
+    this.deckService.findAll().subscribe(decks => this.decks = decks);
   }
 }
