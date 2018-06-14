@@ -1,4 +1,6 @@
-<form #newDeckForm="ngForm" (submit)="createNewDeck(newDeckForm)">
+<form
+  #newDeckForm="ngForm"
+  (submit)="createNewDeck(); newDeckForm.resetForm();">
   <mat-form-field>
     <input
       matInput type="text" required placeholder="Title" 

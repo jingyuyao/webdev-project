@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { NgForm } from '@angular/forms';
 
 import { Deck } from '../models/deck.model';
 import { DeckService } from '../services/deck.service';
@@ -32,18 +31,12 @@ export class MyDecksPageComponent implements OnInit {
     });
   }
 
-  createNewDeck(form: NgForm) {
+  createNewDeck() {
     this.deckService
       .createDeck(this.newDeck)
       .subscribe(
-        deck => {
-          this.decks = [deck, ...this.decks];
-          form.reset();
-        },
-        () => {
-          form.reset();
-          alert('Unable to create form');
-        },
+        deck => this.decks = [deck, ...this.decks],
+        () => alert('Unable to create form'),
       );
   }
 }
