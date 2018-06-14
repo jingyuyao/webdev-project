@@ -8,7 +8,7 @@ import { Card } from '../models/card.model';
   styleUrls: ['./hs-card-table.component.css']
 })
 export class HsCardTableComponent implements OnInit {
-  @Input() cards: Card[];
+  private _cards: Card[];
   displayedColumns = ['id'];
 
   constructor() { }
@@ -16,4 +16,12 @@ export class HsCardTableComponent implements OnInit {
   ngOnInit() {
   }
 
+  @Input()
+  set cards(cards: Card[]) {
+    this._cards = cards;
+  }
+
+  get cards(): Card[] {
+    return this._cards;
+  }
 }
