@@ -1,3 +1,8 @@
-<p>
-  deck-list works!
-</p>
+<mat-nav-list>
+  <mat-list-item
+    *ngFor="let deck of decks"
+    (click)="selected.emit(deck)">
+    <h3 matLine>{{deck.title}}</h3>
+    <p matLine>{{deck.description}}</p>
+  </mat-list-item>
+</mat-nav-list>
