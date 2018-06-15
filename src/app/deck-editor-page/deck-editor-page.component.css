@@ -1,8 +1,18 @@
-form {
+.deck-form {
+  display: flex;
+  margin-top: 10px;
+  flex-direction: column;
+}
+
+.deck-form, button {
+  margin-right: 10px;
+}
+
+.new-card-form {
   align-items: center;
   display: flex;
 }
 
-mat-form-field {
+.new-card-form, mat-form-field {
   flex: auto;
 }

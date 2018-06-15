@@ -1,9 +1,27 @@
-<h3>{{deck.title}}</h3>
-<p>{{deck.description}}</p>
-<button mat-raised-button color="warn" (click)="deleteDeck()">
-  Delete
-</button>
-<form (ngSubmit)="hsCardSearch.valid && addCard()">
+<form class="deck-form" #deckForm="ngForm" (ngSubmit)="saveDeck()">
+  <div>
+    <button type="submit" mat-raised-button color="primary"
+      [disabled]="!deckForm.form.valid">
+      Save deck
+    </button>
+    <button type="button" mat-raised-button color="warn"
+      (click)="deleteDeck()">
+      Delete
+    </button>
+  </div>
+  <mat-form-field>
+    <input
+      matInput type="text" required placeholder="Title"
+      name="title" [(ngModel)]="deck.title">
+  </mat-form-field>
+  <mat-form-field class="description-field">
+    <input
+      matInput type="text" required placeholder="Description"
+      name="description" [(ngModel)]="deck.description">
+  </mat-form-field>
+</form>
+<form class="new-card-form"
+  (ngSubmit)="hsCardSearch.valid && addCard()">
   <mat-form-field>
     <input
       matInput type="text" placeholder="Card name (e.g. Fireball)"

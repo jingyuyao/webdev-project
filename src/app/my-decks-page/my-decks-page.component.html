@@ -1,6 +1,6 @@
 <form
   #newDeckForm="ngForm"
-  (submit)="createNewDeck(); newDeckForm.resetForm();">
+  (ngSubmit)="createNewDeck(); newDeckForm.resetForm();">
   <mat-form-field>
     <mat-select
       required placeholder="Class"
