@@ -45,7 +45,8 @@ export class DeckEditorPageComponent implements OnInit {
       filter(value => value.length > 3),
       debounceTime(300),
       distinctUntilChanged(),
-      switchMap(name => this.hsService.findByFuzzyName(name)),
+      switchMap(name =>
+        this.hsService.findByFuzzyName(this.deck.cardClass, name)),
     );
   }
 
