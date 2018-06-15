@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { MatSnackBar } from '@angular/material';
 import { Observable, ReplaySubject, from, of } from 'rxjs';
 import { flatMap, map, catchError, take } from 'rxjs/operators';
 import * as localForage from 'localforage';
@@ -18,7 +19,8 @@ export class HsService {
   });
   private readonly loaded$ = new ReplaySubject<boolean>(1);
 
-  constructor(http: HttpClient) {
+  constructor(http: HttpClient, snackBar: MatSnackBar) {
+    snackBar.open('Loading cards from hearthstonejson.com');
     http.get<HsCard[]>(HsService.CARDS_URL).pipe(
       flatMap(hsCards => {
         const savePromises =
@@ -29,8 +31,12 @@ export class HsService {
       map(() => true),
       catchError(() => of(false)),
     ).subscribe(loaded => {
-      console.log(`Cards loaded: ${loaded}`);
-      this.store.length().then(l => console.log(`${l} cards in store`));
+      if (loaded) {
+        this.store.length().then(l =>
+          snackBar.open(`Loaded ${l} cards in store`, '', {duration: 1000}));
+      } else {
+        snackBar.open('Unable to load cards', '', {duration: 1000});
+      }
       this.loaded$.next(loaded);
       this.loaded$.complete();
     });
