@@ -14,6 +14,7 @@ import { DeckListComponent } from './deck-list/deck-list.component';
 import { DeckViewerPageComponent } from './deck-viewer-page/deck-viewer-page.component';
 import { HsCardTableComponent } from './hs-card-table/hs-card-table.component';
 import { MyDecksPageComponent } from './my-decks-page/my-decks-page.component';
+import { DeckEditorPageComponent } from './deck-editor-page/deck-editor-page.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { MyDecksPageComponent } from './my-decks-page/my-decks-page.component';
     DeckViewerPageComponent,
     HsCardTableComponent,
     MyDecksPageComponent,
+    DeckEditorPageComponent,
   ],
   imports: [
     BrowserModule,

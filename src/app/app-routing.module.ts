@@ -7,6 +7,7 @@ import { HomePageComponent } from './home-page/home-page.component';
 import { ProfilePageComponent } from './profile-page/profile-page.component';
 import { MyDecksPageComponent } from './my-decks-page/my-decks-page.component';
 import { DeckViewerPageComponent } from './deck-viewer-page/deck-viewer-page.component';
+import { DeckEditorPageComponent } from './deck-editor-page/deck-editor-page.component';
 
 const routes: Routes = [
   {
@@ -32,6 +33,14 @@ const routes: Routes = [
     path: 'deck/:id',
     component: DeckViewerPageComponent,
     resolve: {
+      deck: DeckResolver,
+    },
+  },
+  {
+    path: 'deck/:id/edit',
+    component: DeckEditorPageComponent,
+    resolve: {
+      user: UserResolver,
       deck: DeckResolver,
     },
   },
