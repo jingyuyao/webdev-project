@@ -9,6 +9,7 @@ import { Deck } from '../models/deck.model';
 })
 export class DeckListComponent {
   @Input() decks: Deck[];
+  @Input() edit: boolean;
 
   constructor() { }
 }
