@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { DeckService } from '../services/deck.service';
 import { Deck } from '../models/deck.model';
 import { Card } from '../models/card.model';
+import { DeckService } from '../services/deck.service';
 
 @Component({
   selector: 'app-deck-viewer-page',
