@@ -3,12 +3,16 @@
 <button mat-raised-button color="warn" (click)="deleteDeck()">
   Delete
 </button>
-<form (ngSubmit)="addCard()">
+<form (ngSubmit)="hsCardSearch.valid && addCard()">
   <mat-form-field>
     <input
       matInput type="text" placeholder="Card name (e.g. Fireball)"
       [formControl]="hsCardSearch"
       [matAutocomplete]="hsCardSearchAutocomplete">
+    <mat-error *ngIf="hsCardSearch.invalid">
+      Please select a value from dropdown.
+      Press enter to quickly select the first value.
+    </mat-error>
     <mat-autocomplete
       #hsCardSearchAutocomplete="matAutocomplete"
       autoActiveFirstOption
@@ -20,5 +24,10 @@
       </mat-option>
     </mat-autocomplete>
   </mat-form-field>
+  <button
+    mat-raised-button type="submit" color="primary"
+    [disabled]="hsCardSearch.invalid">
+    Add card
+  </button>
 </form>
 <app-hs-card-table [cards]="cards"></app-hs-card-table>
