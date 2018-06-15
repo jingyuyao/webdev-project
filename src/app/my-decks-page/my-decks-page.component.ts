@@ -3,7 +3,6 @@ import { ActivatedRoute } from '@angular/router';
 
 import { Deck, PlayerCardClass } from '../models/deck.model';
 import { DeckService } from '../services/deck.service';
-import { HsService } from '../services/hs.service';
 
 @Component({
   selector: 'app-my-decks-page',
@@ -23,7 +22,6 @@ export class MyDecksPageComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private deckService: DeckService,
-    private hsService: HsService,
   ) { }
 
   ngOnInit() {
@@ -33,12 +31,6 @@ export class MyDecksPageComponent implements OnInit {
         .findAllByUserId(userId)
         .subscribe(decks => this.decks = decks);
     });
-    this.hsService
-      .findByFuzzyName('fireb')
-      .subscribe(hsCards => console.log(hsCards));
-    this.hsService
-      .findByFuzzyName('fireball')
-      .subscribe(hsCards => console.log(hsCards));
   }
 
   createNewDeck() {
