@@ -2,6 +2,17 @@
   #newDeckForm="ngForm"
   (submit)="createNewDeck(); newDeckForm.resetForm();">
   <mat-form-field>
+    <mat-select
+      required placeholder="Class"
+      name="cardClass" [(ngModel)]="newDeck.cardClass">
+      <mat-option
+        *ngFor="let cls of playerCardClasses"
+        [value]="cls">
+        {{cls}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
     <input
       matInput type="text" required placeholder="Title" 
       name="title" [(ngModel)]="newDeck.title">

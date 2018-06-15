@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { Deck } from '../models/deck.model';
+import { Deck, PlayerCardClass } from '../models/deck.model';
 import { DeckService } from '../services/deck.service';
 import { HsService } from '../services/hs.service';
 
@@ -15,8 +15,9 @@ export class MyDecksPageComponent implements OnInit {
     id: 0,
     title: '',
     description: '',
-    cardClass: '',
+    cardClass: PlayerCardClass.MAGE,
   };
+  playerCardClasses = Object.values(PlayerCardClass);
   decks: Deck[] = [];
 
   constructor(

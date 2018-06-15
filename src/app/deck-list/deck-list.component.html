@@ -2,7 +2,7 @@
   <a mat-list-item
     *ngFor="let deck of decks"
     [routerLink]="edit ? ['/deck', deck.id, 'edit'] : ['/deck', deck.id]">
-    <h3 matLine>{{deck.title}}</h3>
+    <h3 matLine>[{{deck.cardClass}}] {{deck.title}}</h3>
     <p matLine>{{deck.description}}</p>
   </a>
 </mat-nav-list>
