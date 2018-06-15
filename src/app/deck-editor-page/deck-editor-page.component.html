@@ -24,7 +24,7 @@
   (ngSubmit)="hsCardSearch.valid && addCard()">
   <mat-form-field>
     <input
-      matInput type="text" placeholder="Card name (e.g. Fireball)"
+      matInput type="text" placeholder="Card name (e.g. Yeti)"
       [formControl]="hsCardSearch"
       [matAutocomplete]="hsCardSearchAutocomplete">
     <mat-error *ngIf="hsCardSearch.invalid">

@@ -41,6 +41,28 @@ export class DeckService {
     );
   }
 
+  updateDeck(deck: Deck): Observable<Deck> {
+    return this.http.put<Deck>(
+      `/api/deck/${deck.id}`,
+      deck,
+      {
+        headers: new HttpHeaders({'Content-Type': 'application/json'}),
+        withCredentials: true,
+      },
+    );
+  }
+
+  updateDeckCards(id: number, cards: Card[]): Observable<Card[]> {
+    return this.http.put<Card[]>(
+      `/api/deck/${id}/cards`,
+      cards,
+      {
+        headers: new HttpHeaders({'Content-Type': 'application/json'}),
+        withCredentials: true,
+      },
+    );
+  }
+
   deleteDeck(id: number): Observable<any> {
     return this.http.delete<any>(
       `/api/deck/${id}`,

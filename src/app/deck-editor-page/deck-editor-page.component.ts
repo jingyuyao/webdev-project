@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormControl, Validators, AbstractControl } from '@angular/forms';
+import { MatSnackBar } from '@angular/material';
 import { Observable } from 'rxjs';
-import { filter, debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
+import { filter, debounceTime, distinctUntilChanged, flatMap, switchMap } from 'rxjs/operators';
 
 import { Deck } from '../models/deck.model';
 import { Card } from '../models/card.model';
@@ -29,6 +30,7 @@ export class DeckEditorPageComponent implements OnInit {
     private route: ActivatedRoute,
     private deckService: DeckService,
     private hsService: HsService,
+    private snackBar: MatSnackBar,
   ) { }
 
   ngOnInit() {
@@ -53,12 +55,18 @@ export class DeckEditorPageComponent implements OnInit {
   deleteDeck() {
     this.deckService.deleteDeck(this.deck.id).subscribe(
       () => this.router.navigate(['/my-decks']),
-      () => alert('Unable to delete deck'),
+      () => this.snackBar.open('Unable to delete deck', '', {duration: 1000}),
     );
   }
 
   saveDeck() {
-
+    this.deckService.updateDeck(this.deck).pipe(
+      flatMap(() =>
+        this.deckService.updateDeckCards(this.deck.id, this.cards)),
+    ).subscribe(
+      () => this.snackBar.open('Updated deck', '', {duration: 1000}),
+      () => this.snackBar.open('Unable to update deck', '', {duration: 1000}),
+    );
   }
 
   addCard() {
