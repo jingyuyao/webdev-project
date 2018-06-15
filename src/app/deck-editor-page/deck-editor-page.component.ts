@@ -57,9 +57,10 @@ export class DeckEditorPageComponent implements OnInit {
   }
 
   addCard() {
-    console.log(this.hsCardSearch.valid);
-    console.log(this.hsCardSearch.value);
+    const hsCard = this.hsCardSearch.value;
+    this.cards = [{id: hsCard.id}, ...this.cards];
     this.hsCardSearch.reset('');
+    this.hsCardSearch.setErrors(null);
   }
 
   hsCardToString(hsCard?: HsCard): string | undefined {
