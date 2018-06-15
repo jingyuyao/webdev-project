@@ -1,3 +1,6 @@
 <h3>{{deck.title}}</h3>
 <p>{{deck.description}}</p>
+<button mat-raised-button color="warn" (click)="deleteDeck()">
+  Delete
+</button>
 <app-hs-card-table [cards]="cards"></app-hs-card-table>

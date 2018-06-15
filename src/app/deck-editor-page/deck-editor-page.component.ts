@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 import { Deck } from '../models/deck.model';
 import { Card } from '../models/card.model';
@@ -15,6 +15,7 @@ export class DeckEditorPageComponent implements OnInit {
   cards: Card[] = [];
 
   constructor(
+    private router: Router,
     private route: ActivatedRoute,
     private deckService: DeckService,
   ) { }
@@ -26,5 +27,12 @@ export class DeckEditorPageComponent implements OnInit {
         .findCardsByDeckId(this.deck.id)
         .subscribe(cards => this.cards = cards);
     });
+  }
+
+  deleteDeck() {
+    this.deckService.deleteDeck(this.deck.id).subscribe(
+      () => this.router.navigate(['/my-decks']),
+      () => alert('Unable to delete deck'),
+    );
   }
 }
