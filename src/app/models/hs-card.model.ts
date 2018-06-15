@@ -1,19 +1,20 @@
 /**
  * External card representation.
  *
- * See https://market.mashape.com/omgvamp/hearthstone#single-card
+ * See https://hearthstonejson.com/docs/cards.html
  */
 export interface HsCard {
-  cardId: string;
+  id: string;
   name: string;
   text: string;
   type: string;
-  img: string;
-  playerClass: string;
-  cardSet: string;
+  cardClass: string;
   rarity: string;
+  set: string;
   cost: number;
   attack?: number;
   health?: number;
   race?: string;
+  durability?: number;
+  armor?: number;
 }

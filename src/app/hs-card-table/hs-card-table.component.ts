@@ -15,7 +15,7 @@ export class HsCardTableComponent implements OnInit {
     'name',
     'type',
     'rarity',
-    'playerClass',
+    'cardClass',
     'cost',
     'attack',
     'health',
