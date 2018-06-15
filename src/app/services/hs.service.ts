@@ -44,13 +44,14 @@ export class HsService {
   }
 
   findByFuzzyName(name: string): Observable<HsCard[]> {
+    const nameLower = name.toLowerCase();
     return this.loaded$.pipe(
       flatMap(() => {
         const hsCards: HsCard[] = [];
         return from(
           this.store.iterate<HsCard, void>(
             hsCard => {
-              if (hsCard.name.toLowerCase().includes(name)) {
+              if (hsCard.name.toLowerCase().includes(nameLower)) {
                 hsCards.push(hsCard);
               }
             })

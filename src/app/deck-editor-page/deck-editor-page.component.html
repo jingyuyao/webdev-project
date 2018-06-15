@@ -3,4 +3,22 @@
 <button mat-raised-button color="warn" (click)="deleteDeck()">
   Delete
 </button>
+<form (ngSubmit)="addCard()">
+  <mat-form-field>
+    <input
+      matInput type="text" placeholder="Card name (e.g. Fireball)"
+      [formControl]="hsCardSearch"
+      [matAutocomplete]="hsCardSearchAutocomplete">
+    <mat-autocomplete
+      #hsCardSearchAutocomplete="matAutocomplete"
+      autoActiveFirstOption
+      [displayWith]="hsCardToString">
+      <mat-option
+        *ngFor="let hsCard of hsCardSearches | async"
+        [value]="hsCard">
+        {{hsCard.name}}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+</form>
 <app-hs-card-table [cards]="cards"></app-hs-card-table>
