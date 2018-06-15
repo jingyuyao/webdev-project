@@ -1,7 +1,10 @@
 .deck-form {
   display: flex;
-  margin-top: 10px;
   flex-direction: column;
+}
+
+.button-row {
+  margin: 10px 0;
 }
 
 .deck-form, button {
@@ -15,4 +18,5 @@
 
 .new-card-form, mat-form-field {
   flex: auto;
+  margin-right: 10px;
 }

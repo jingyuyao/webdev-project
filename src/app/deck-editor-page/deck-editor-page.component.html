@@ -1,12 +1,12 @@
 <form class="deck-form" #deckForm="ngForm" (ngSubmit)="saveDeck()">
-  <div>
+  <div class="button-row">
     <button type="submit" mat-raised-button color="primary"
       [disabled]="!deckForm.form.valid">
       Save deck
     </button>
     <button type="button" mat-raised-button color="warn"
       (click)="deleteDeck()">
-      Delete
+      Delete deck
     </button>
   </div>
   <mat-form-field>
