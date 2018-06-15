@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, from, of } from 'rxjs';
-import { tap, flatMap, map, catchError, shareReplay } from 'rxjs/operators';
+import { Observable, ReplaySubject, from, of } from 'rxjs';
+import { flatMap, map, catchError, take } from 'rxjs/operators';
 import * as localForage from 'localforage';
 
 import { HsCard } from '../models/hs-card.model';
@@ -16,10 +16,10 @@ export class HsService {
   private readonly store = localForage.createInstance({
     name: HsService.STORE_NAME,
   });
-  private loaded: Observable<boolean>;
+  private readonly loaded$ = new ReplaySubject<boolean>(1);
 
   constructor(http: HttpClient) {
-    this.loaded = http.get<HsCard[]>(HsService.CARDS_URL).pipe(
+    http.get<HsCard[]>(HsService.CARDS_URL).pipe(
       flatMap(hsCards => {
         const savePromises =
           hsCards.map(hsCard => this.store.setItem(hsCard.id, hsCard));
@@ -28,17 +28,36 @@ export class HsService {
       }),
       map(() => true),
       catchError(() => of(false)),
-      tap(loaded => {
-        console.log(`Cards loaded: ${loaded}`);
-        this.store.length().then(l => console.log(`${l} cards in store`));
-      }),
-      shareReplay(1),
-    );
+    ).subscribe(loaded => {
+      console.log(`Cards loaded: ${loaded}`);
+      this.store.length().then(l => console.log(`${l} cards in store`));
+      this.loaded$.next(loaded);
+      this.loaded$.complete();
+    });
   }
 
   findById(id: string): Observable<HsCard> {
-    return this.loaded.pipe(
+    return this.loaded$.pipe(
       flatMap(() => from(this.store.getItem(id))),
+      take(1),
+    );
+  }
+
+  findByFuzzyName(name: string): Observable<HsCard[]> {
+    return this.loaded$.pipe(
+      flatMap(() => {
+        const hsCards: HsCard[] = [];
+        return from(
+          this.store.iterate<HsCard, void>(
+            hsCard => {
+              if (hsCard.name.toLowerCase().includes(name)) {
+                hsCards.push(hsCard);
+              }
+            })
+            .then(() => hsCards)
+        );
+      }),
+      take(1),
     );
   }
 }
