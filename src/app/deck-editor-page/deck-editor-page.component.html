@@ -11,6 +11,11 @@
   </div>
   <mat-form-field>
     <input
+      matInput type="text" placeholder="Player class"
+      [value]="deck.cardClass" disabled>
+  </mat-form-field>
+  <mat-form-field>
+    <input
       matInput type="text" placeholder="Title"
       formControlName="title">
   </mat-form-field>

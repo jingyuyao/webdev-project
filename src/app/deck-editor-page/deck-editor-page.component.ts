@@ -17,11 +17,11 @@ import { HsService } from '../services/hs.service';
   styleUrls: ['./deck-editor-page.component.css']
 })
 export class DeckEditorPageComponent implements OnInit {
+  deck: Deck;
   cards: Card[] = [];
   deckForm: FormGroup;
   searchForm: FormGroup;
   hsCardSearches: Observable<HsCard[]>;
-  private deck: Deck;
 
   constructor(
     private router: Router,
