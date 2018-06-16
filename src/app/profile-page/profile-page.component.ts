@@ -22,10 +22,6 @@ export class ProfilePageComponent implements OnInit {
     this.route.data.subscribe(data => this.user = data.user);
   }
 
-  userDebug(): string {
-    return JSON.stringify(this.user);
-  }
-
   logOut() {
     this.identityService.logOut();
     this.router.navigate(['/']);
