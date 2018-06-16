@@ -1,6 +1,23 @@
-<div *ngIf="user; else loading">
-  Current user: {{user | json}}
-</div>
+<form
+  *ngIf="user; else loading"
+  [formGroup]="userForm"
+  (ngSubmit)="updateUser()">
+  <mat-form-field>
+    <input
+      matInput type="text" placeholder="Name"
+      formControlName="name">
+  </mat-form-field>
+  <mat-form-field>
+    <input
+      matInput type="text" placeholder="Email"
+      formControlName="email">
+  </mat-form-field>
+  <button
+    type="submit" mat-raised-button color="primary"
+    [disabled]="userForm.invalid">
+    Update profile
+  </button>
+</form>
 <ng-template #loading>
   <div>Loading profile...</div>
 </ng-template>

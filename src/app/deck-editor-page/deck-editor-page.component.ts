@@ -100,7 +100,7 @@ export class DeckEditorPageComponent implements OnInit {
       flatMap(() =>
         this.deckService.updateDeckCards(this.deck.id, this.cards)),
     ).subscribe(
-      () => this.snackBar.open('Updated deck', '', {duration: 1000}),
+      () => this.snackBar.open('Deck updated', '', {duration: 1000}),
       () => this.snackBar.open(
         'Unable to update deck', '', {duration: 1000}),
     );

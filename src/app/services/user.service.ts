@@ -42,6 +42,19 @@ export class UserService {
     return this.currentUser$;
   }
 
+  updateProfile(user: User): Observable<User> {
+    return this.http.put<User>(
+      '/api/profile',
+      user,
+      {
+        headers: new HttpHeaders({'Content-Type': 'application/json'}),
+        withCredentials: true,
+      },
+    ).pipe(
+
+    );
+  }
+
   private logInOrRegister(identity: Identity): Observable<User> {
     return this.http.post<User>(
       '/api/logInOrRegister',
