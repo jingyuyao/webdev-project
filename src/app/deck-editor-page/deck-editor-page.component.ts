@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FormControl, Validators, AbstractControl } from '@angular/forms';
 import { MatSnackBar } from '@angular/material';
 import { Observable } from 'rxjs';
-import { filter, debounceTime, distinctUntilChanged, flatMap, switchMap } from 'rxjs/operators';
+import { filter, debounceTime, distinctUntilChanged, flatMap, switchMap, map } from 'rxjs/operators';
 
 import { Deck } from '../models/deck.model';
 import { Card } from '../models/card.model';
@@ -44,11 +44,12 @@ export class DeckEditorPageComponent implements OnInit {
 
     this.hsCardSearches = this.hsCardSearch.valueChanges.pipe(
       filter(value => typeof value === 'string'),
-      filter(value => value.length > 3),
+      filter(value => value.length > 2),
       debounceTime(300),
       distinctUntilChanged(),
       switchMap(name =>
         this.hsService.findByFuzzyName(this.deck.cardClass, name)),
+      map(hsCards => hsCards.slice(0, 5)),
     );
   }
 
