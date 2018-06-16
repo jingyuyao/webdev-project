@@ -1,9 +1,13 @@
 form {
   align-items: center;
   display: flex;
+  margin-top: 10px;
+}
+
+.title-field {
+  margin: 0 10px;
 }
 
 .description-field {
   flex: auto;
-  margin: 0 10px;
 }
