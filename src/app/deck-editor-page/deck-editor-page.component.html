@@ -32,7 +32,8 @@
   (ngSubmit)="addCard(searchFormDirective)">
   <mat-form-field>
     <input
-      matInput type="text" placeholder="Card name (e.g. Yeti)"
+      matInput type="text"
+      placeholder="Card name (e.g. Yeti, Leeroy)"
       formControlName="hsCard"
       [matAutocomplete]="hsCardSearchAutocomplete">
     <mat-error *ngIf="searchForm.get('hsCard').invalid">
@@ -47,6 +48,8 @@
         *ngFor="let hsCard of hsCardSearches | async"
         [value]="hsCard">
         {{hsCard.name}}
+        [{{hsCard.cardClass}}]
+        [{{hsCard.type}}]
       </mat-option>
     </mat-autocomplete>
   </mat-form-field>
