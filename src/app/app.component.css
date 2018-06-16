@@ -12,3 +12,10 @@ mat-toolbar {
 a, button, #google-login {
   margin-left: 10px;
 }
+
+.disclaimer {
+  bottom: 0;
+  font-size: small;
+  font-weight: lighter;
+  position: absolute;
+}
