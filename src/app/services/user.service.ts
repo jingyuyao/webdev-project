@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
-import { switchMap, map, catchError, distinctUntilChanged, shareReplay } from 'rxjs/operators';
+import { Observable, ReplaySubject, of } from 'rxjs';
+import { switchMap, map, catchError, distinctUntilChanged, tap } from 'rxjs/operators';
 
 import { Identity } from '../models/identity.model';
 import { User } from '../models/user.model';
@@ -11,14 +11,14 @@ import { IdentityService } from './identity.service';
   providedIn: 'root'
 })
 export class UserService {
-  private readonly currentUser$: Observable<User>;
+  private readonly currentUser$ = new ReplaySubject<User>(1);
 
   constructor(
     private http: HttpClient,
     private identityService: IdentityService,
   ) {
     // Sync current user with current identity.
-    this.currentUser$ = identityService.currentIdentity().pipe(
+    identityService.currentIdentity().pipe(
       switchMap(identity => {
         if (identity.loggedIn) {
           return this.logInOrRegister(identity);
@@ -28,9 +28,7 @@ export class UserService {
       }),
       catchError(() => of(null)),
       distinctUntilChanged(),
-      // Save the last user for late subscribers.
-      shareReplay(1),
-    );
+    ).subscribe(currentUser => this.currentUser$.next(currentUser));
   }
 
   /**
@@ -51,7 +49,7 @@ export class UserService {
         withCredentials: true,
       },
     ).pipe(
-
+      tap(updatedUser => this.currentUser$.next(updatedUser)),
     );
   }
 
