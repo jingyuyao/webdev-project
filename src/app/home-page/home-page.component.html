@@ -1,1 +1,6 @@
+<mat-form-field>
+  <input
+    matInput type="text" placeholder="Search by deck title"
+    [formControl]="searchInput" autocomplete="off">
+</mat-form-field>
 <app-deck-list [decks]="decks" [edit]="false"></app-deck-list>
