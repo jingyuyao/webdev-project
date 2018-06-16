@@ -1,8 +1,7 @@
-<!-- Template form -->
-<form class="deck-form" #deckForm="ngForm" (ngSubmit)="saveDeck()">
+<form class="deck-form" [formGroup]="deckForm" (ngSubmit)="saveDeck()">
   <div class="button-row">
     <button type="submit" mat-raised-button color="primary"
-      [disabled]="!deckForm.form.valid">
+      [disabled]="deckForm.invalid">
       Save deck
     </button>
     <button type="button" mat-raised-button color="warn"
@@ -12,16 +11,15 @@
   </div>
   <mat-form-field>
     <input
-      matInput type="text" required placeholder="Title"
-      name="title" [(ngModel)]="deck.title">
+      matInput type="text" placeholder="Title"
+      formControlName="title">
   </mat-form-field>
   <mat-form-field class="description-field">
     <input
-      matInput type="text" required placeholder="Description"
-      name="description" [(ngModel)]="deck.description">
+      matInput type="text" placeholder="Description"
+      formControlName="description">
   </mat-form-field>
 </form>
-<!-- Reactive form -->
 <form
   class="new-card-form"
   #searchFormDirective="ngForm"

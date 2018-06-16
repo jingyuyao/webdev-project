@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, AbstractControl, FormGroupDirective } from '@angular/forms';
 import { MatSnackBar } from '@angular/material';
 import { Observable } from 'rxjs';
-import { filter, debounceTime, distinctUntilChanged, flatMap, switchMap, map } from 'rxjs/operators';
+import { filter, debounceTime, distinctUntilChanged, flatMap, switchMap, tap, map } from 'rxjs/operators';
 
 import { Deck } from '../models/deck.model';
 import { Card } from '../models/card.model';
@@ -17,10 +17,11 @@ import { HsService } from '../services/hs.service';
   styleUrls: ['./deck-editor-page.component.css']
 })
 export class DeckEditorPageComponent implements OnInit {
-  deck: Deck;
   cards: Card[] = [];
+  deckForm: FormGroup;
   searchForm: FormGroup;
   hsCardSearches: Observable<HsCard[]>;
+  private deck: Deck;
 
   constructor(
     private router: Router,
@@ -32,16 +33,23 @@ export class DeckEditorPageComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.deckForm = this.fb.group({
+      title: ['', Validators.required],
+      description: ['', Validators.required],
+    });
+
     this.searchForm = this.fb.group({
       hsCard: ['', [Validators.required, this.requireNonString]],
     });
 
     this.route.data.subscribe(data => {
       this.deck = data.deck;
+      this.setDeckForm(this.deck);
+      this.resetSearchForm();
+      this.cards = [];
       this.deckService
         .findCardsByDeckId(this.deck.id)
         .subscribe(cards => this.cards = cards);
-      this.resetSearchForm();
     });
 
     this.hsCardSearches =
@@ -54,6 +62,13 @@ export class DeckEditorPageComponent implements OnInit {
           this.hsService.findByFuzzyName(this.deck.cardClass, name)),
         map(hsCards => hsCards.slice(0, 5)),
       );
+  }
+
+  setDeckForm(deck: Deck) {
+    this.deckForm.setValue({
+      title: deck.title,
+      description: deck.description,
+    });
   }
 
   resetSearchForm(searchFormDirective?: FormGroupDirective) {
@@ -76,7 +91,12 @@ export class DeckEditorPageComponent implements OnInit {
 
   saveDeck() {
     this.snackBar.open('Updating deck...');
-    this.deckService.updateDeck(this.deck).pipe(
+    const updatedDeck = {
+      ...this.deck,
+      ...this.deckForm.value,
+    };
+    this.deckService.updateDeck(updatedDeck).pipe(
+      tap(savedDeck => this.deck = savedDeck),
       flatMap(() =>
         this.deckService.updateDeckCards(this.deck.id, this.cards)),
     ).subscribe(
@@ -103,6 +123,7 @@ export class DeckEditorPageComponent implements OnInit {
   requireNonString(
     control: AbstractControl): {[key: string]: any} | null {
       const forbidden = typeof control.value === 'string';
-      return forbidden ? {'forbiddenName': {value: control.value}} : null;
+      return forbidden
+        ? {'forbiddenName': {value: control.value}} : null;
     }
 }
