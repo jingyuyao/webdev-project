@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 import { User } from '../models/user.model';
-import { IdentityService } from '../services/identity.service';
 
 @Component({
   selector: 'app-profile-page',
@@ -13,17 +12,10 @@ export class ProfilePageComponent implements OnInit {
   user: User;
 
   constructor(
-    private router: Router,
     private route: ActivatedRoute,
-    private identityService: IdentityService,
   ) { }
 
   ngOnInit() {
     this.route.data.subscribe(data => this.user = data.user);
-  }
-
-  logOut() {
-    this.identityService.logOut();
-    this.router.navigate(['/']);
   }
 }

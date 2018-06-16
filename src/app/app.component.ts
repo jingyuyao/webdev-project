@@ -1,4 +1,5 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { IdentityService } from './services/identity.service';
 import { UserService } from './services/user.service';
@@ -12,6 +13,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   loggedIn = false;
 
   constructor(
+    private router: Router,
     private identityService: IdentityService,
     private userService: UserService,
   ) { }
@@ -24,5 +26,10 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.identityService.renderLogInButton('google-login');
+  }
+
+  logOut() {
+    this.identityService.logOut();
+    this.router.navigate(['/']);
   }
 }

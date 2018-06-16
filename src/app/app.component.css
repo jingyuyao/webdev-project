@@ -6,6 +6,6 @@
   display: none;
 }
 
-a, #google-login {
+a, button, #google-login {
   margin-left: 10px;
 }
