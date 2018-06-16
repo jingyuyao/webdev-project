@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { AppMaterialModule } from './app-material.module';
 import { AppRoutingModule } from './app-routing.module';
@@ -31,7 +31,6 @@ import { DeckEditorPageComponent } from './deck-editor-page/deck-editor-page.com
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    FormsModule,
     ReactiveFormsModule,
     AppMaterialModule,
     AppRoutingModule,
