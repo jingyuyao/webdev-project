@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { FormControl, Validators, AbstractControl } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, AbstractControl, FormGroupDirective } from '@angular/forms';
 import { MatSnackBar } from '@angular/material';
 import { Observable } from 'rxjs';
 import { filter, debounceTime, distinctUntilChanged, flatMap, switchMap, map } from 'rxjs/operators';
@@ -19,38 +19,51 @@ import { HsService } from '../services/hs.service';
 export class DeckEditorPageComponent implements OnInit {
   deck: Deck;
   cards: Card[] = [];
-  hsCardSearch = new FormControl('', [
-    Validators.required,
-    this.requireNonString,
-  ]);
+  searchForm: FormGroup;
   hsCardSearches: Observable<HsCard[]>;
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
+    private fb: FormBuilder,
     private deckService: DeckService,
     private hsService: HsService,
     private snackBar: MatSnackBar,
   ) { }
 
   ngOnInit() {
+    this.searchForm = this.fb.group({
+      hsCard: ['', [Validators.required, this.requireNonString]],
+    });
+
     this.route.data.subscribe(data => {
-      this.hsCardSearch.reset('');
       this.deck = data.deck;
       this.deckService
         .findCardsByDeckId(this.deck.id)
         .subscribe(cards => this.cards = cards);
+      this.resetSearchForm();
     });
 
-    this.hsCardSearches = this.hsCardSearch.valueChanges.pipe(
-      filter(value => typeof value === 'string'),
-      filter(value => value.length > 2),
-      debounceTime(300),
-      distinctUntilChanged(),
-      switchMap(name =>
-        this.hsService.findByFuzzyName(this.deck.cardClass, name)),
-      map(hsCards => hsCards.slice(0, 5)),
-    );
+    this.hsCardSearches =
+      this.searchForm.get('hsCard').valueChanges.pipe(
+        filter(value => typeof value === 'string'),
+        filter(value => value.length > 2),
+        debounceTime(300),
+        distinctUntilChanged(),
+        switchMap(name =>
+          this.hsService.findByFuzzyName(this.deck.cardClass, name)),
+        map(hsCards => hsCards.slice(0, 5)),
+      );
+  }
+
+  resetSearchForm(searchFormDirective?: FormGroupDirective) {
+    this.searchForm.reset({
+      hsCard: '',
+    });
+    // https://stackoverflow.com/a/48217303
+    if (searchFormDirective) {
+      searchFormDirective.resetForm();
+    }
   }
 
   deleteDeck() {
@@ -73,11 +86,10 @@ export class DeckEditorPageComponent implements OnInit {
     );
   }
 
-  addCard() {
-    const hsCard = this.hsCardSearch.value;
+  addCard(searchFormDirective: FormGroupDirective) {
+    const hsCard = this.searchForm.value.hsCard;
     this.cards = [{id: hsCard.id}, ...this.cards];
-    this.hsCardSearch.reset('');
-    this.hsCardSearch.setErrors(null);
+    this.resetSearchForm(searchFormDirective);
   }
 
   deleteCard(hsCard: HsCard) {
