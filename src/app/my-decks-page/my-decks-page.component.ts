@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { MatSnackBar } from '@angular/material';
 
 import { Deck, PlayerCardClass } from '../models/deck.model';
 import { DeckService } from '../services/deck.service';
@@ -22,6 +23,7 @@ export class MyDecksPageComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private deckService: DeckService,
+    private snackBar: MatSnackBar,
   ) { }
 
   ngOnInit() {
@@ -38,7 +40,8 @@ export class MyDecksPageComponent implements OnInit {
       .createDeck(this.newDeck)
       .subscribe(
         deck => this.decks = [deck, ...this.decks],
-        () => alert('Unable to create form'),
+        () => this.snackBar.open(
+          'Unable to create deck', '', {duration: 1000}),
       );
   }
 }

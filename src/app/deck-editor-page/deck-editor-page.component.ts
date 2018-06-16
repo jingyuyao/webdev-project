@@ -56,18 +56,20 @@ export class DeckEditorPageComponent implements OnInit {
   deleteDeck() {
     this.deckService.deleteDeck(this.deck.id).subscribe(
       () => this.router.navigate(['/my-decks']),
-      () => this.snackBar.open('Unable to delete deck', '', {duration: 1000}),
+      () => this.snackBar.open(
+        'Unable to delete deck', '', {duration: 1000}),
     );
   }
 
   saveDeck() {
-    this.snackBar.open('Updating deck');
+    this.snackBar.open('Updating deck...');
     this.deckService.updateDeck(this.deck).pipe(
       flatMap(() =>
         this.deckService.updateDeckCards(this.deck.id, this.cards)),
     ).subscribe(
       () => this.snackBar.open('Updated deck', '', {duration: 1000}),
-      () => this.snackBar.open('Unable to update deck', '', {duration: 1000}),
+      () => this.snackBar.open(
+        'Unable to update deck', '', {duration: 1000}),
     );
   }
 
