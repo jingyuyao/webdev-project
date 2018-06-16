@@ -48,4 +48,6 @@
     Add card
   </button>
 </form>
-<app-hs-card-table [cards]="cards"></app-hs-card-table>
+<app-hs-card-table
+  [cards]="cards" [edit]="true" (deleteCard)="deleteCard($event)">
+</app-hs-card-table>

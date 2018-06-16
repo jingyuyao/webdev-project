@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { combineLatest } from 'rxjs';
 
 import { Card } from '../models/card.model';
@@ -11,17 +11,9 @@ import { HsService } from '../services/hs.service';
   styleUrls: ['./hs-card-table.component.css']
 })
 export class HsCardTableComponent implements OnInit {
-  displayedColumns = [
-    'name',
-    'type',
-    'rarity',
-    'cardClass',
-    'cost',
-    'attack',
-    'health',
-  ];
+  displayedColumns: string[] = [];
   hsCards: HsCard[] = [];
-  private _cards: Card[];
+  @Output() deleteCard = new EventEmitter<HsCard>();
 
   constructor(private hsService: HsService) { }
 
@@ -30,14 +22,24 @@ export class HsCardTableComponent implements OnInit {
 
   @Input()
   set cards(cards: Card[]) {
-    this._cards = cards;
     this.hsCards = [];
     combineLatest(
-      this._cards.map(card => this.hsService.findById(card.id))
+      cards.map(card => this.hsService.findById(card.id))
     ).subscribe(hsCards => this.hsCards = hsCards);
   }
 
-  get cards(): Card[] {
-    return this._cards;
+  @Input()
+  set edit(edit: boolean) {
+    const baseColumns = [
+      'name',
+      'type',
+      'rarity',
+      'cardClass',
+      'cost',
+      'attack',
+      'health',
+    ];
+    this.displayedColumns =
+      edit ? [...baseColumns, 'deleteCard'] : baseColumns;
   }
 }

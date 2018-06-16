@@ -60,6 +60,7 @@ export class DeckEditorPageComponent implements OnInit {
   }
 
   saveDeck() {
+    this.snackBar.open('Updating deck');
     this.deckService.updateDeck(this.deck).pipe(
       flatMap(() =>
         this.deckService.updateDeckCards(this.deck.id, this.cards)),
@@ -74,6 +75,10 @@ export class DeckEditorPageComponent implements OnInit {
     this.cards = [{id: hsCard.id}, ...this.cards];
     this.hsCardSearch.reset('');
     this.hsCardSearch.setErrors(null);
+  }
+
+  deleteCard(hsCard: HsCard) {
+    this.cards = this.cards.filter(card => card.id !== hsCard.id);
   }
 
   hsCardToString(hsCard?: HsCard): string | undefined {
