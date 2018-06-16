@@ -1,10 +1,10 @@
 <form
-  #newDeckForm="ngForm"
-  (ngSubmit)="createNewDeck(); newDeckForm.resetForm();">
+  [formGroup]="newDeckForm"
+  #newDeckFormDirective="ngForm"
+  (ngSubmit)="createNewDeck(newDeckFormDirective)">
   <mat-form-field>
     <mat-select
-      required placeholder="Class"
-      name="cardClass" [(ngModel)]="newDeck.cardClass">
+      placeholder="Player class" formControlName="cardClass">
       <mat-option
         *ngFor="let cls of playerCardClasses"
         [value]="cls">
@@ -14,17 +14,17 @@
   </mat-form-field>
   <mat-form-field class="title-field">
     <input
-      matInput type="text" required placeholder="Title" 
-      name="title" [(ngModel)]="newDeck.title">
+      matInput type="text" placeholder="Title"
+      formControlName="title">
   </mat-form-field>
   <mat-form-field class="description-field">
     <input
-      matInput type="text" required placeholder="Description" 
-      name="description" [(ngModel)]="newDeck.description">
+      matInput type="text" placeholder="Description"
+      formControlName="description">
   </mat-form-field>
   <button
     mat-raised-button type="submit" color="primary"
-    [disabled]="!newDeckForm.form.valid">
+    [disabled]="newDeckForm.invalid">
     Create deck
   </button>
 </form>
