@@ -2,6 +2,7 @@
   <span class="toolbar-title">HSDecks</span>
   <a
     mat-icon-button
+    matTooltip="Home"
     routerLink="/"
     routerLinkActive="hidden"
     [routerLinkActiveOptions]="{exact: true}">
@@ -9,6 +10,7 @@
   </a>
   <a
     mat-icon-button
+    matTooltip="Profile"
     *ngIf="loggedIn"
     routerLink="/profile"
     routerLinkActive="hidden">
@@ -16,6 +18,7 @@
   </a>
   <button
     mat-icon-button color="warn"
+    matTooltip="Logout"
     *ngIf="loggedIn" (click)="logOut()">
     <mat-icon>exit_to_app</mat-icon>
   </button>
