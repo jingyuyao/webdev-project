@@ -1,10 +1,15 @@
 <p>
-  Welcome to HSDecks! Search for an existing deck below or vist `My decks`
-  page after logging in to manage your own decks!
+  Welcome to HSDecks! Search for an existing deck below or visit
+  `My decks` page after logging in to manage your own decks!
 </p>
 <mat-form-field>
   <input
     matInput type="text" placeholder="Search by deck title"
     [formControl]="searchInput" autocomplete="off">
 </mat-form-field>
+<p *ngIf="loading">
+  Loading...
+  (This can take sometime if you are the first user to visit this site
+  in a while)
+</p>
 <app-deck-list [decks]="decks" [edit]="false"></app-deck-list>

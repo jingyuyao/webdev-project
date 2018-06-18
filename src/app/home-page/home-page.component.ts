@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatSnackBar } from '@angular/material';
-import { filter, debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
+import { startWith, debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 
 import { Deck } from '../models/deck.model';
 import { DeckService } from '../services/deck.service';
@@ -14,6 +14,7 @@ import { DeckService } from '../services/deck.service';
 export class HomePageComponent implements OnInit {
   searchInput = new FormControl('');
   decks: Deck[] = [];
+  loading = true;
 
   constructor(
     private deckService: DeckService,
@@ -21,13 +22,8 @@ export class HomePageComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.deckService.findAll().subscribe(
-      decks => this.decks = decks,
-      () => this.snackBar.open(
-        'Unable to fetch decks', '', {duration: 1000}),
-    );
-
     this.searchInput.valueChanges.pipe(
+      startWith(''),
       debounceTime(500),
       distinctUntilChanged(),
       switchMap(title =>
@@ -35,7 +31,10 @@ export class HomePageComponent implements OnInit {
           ? this.deckService.findAll()
           : this.deckService.findByFuzzyTitle(title)),
     ).subscribe(
-      decks => this.decks = decks,
+      decks => {
+        this.loading = false;
+        this.decks = decks;
+      },
       () => this.snackBar.open(
         'Unable to fetch decks', '', {duration: 1000}),
     );
