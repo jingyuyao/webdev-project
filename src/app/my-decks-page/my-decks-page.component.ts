@@ -15,6 +15,7 @@ export class MyDecksPageComponent implements OnInit {
   newDeckForm: FormGroup;
   playerCardClasses = Object.values(PlayerCardClass);
   decks: Deck[] = [];
+  loading = true;
 
   constructor(
     private route: ActivatedRoute,
@@ -32,9 +33,13 @@ export class MyDecksPageComponent implements OnInit {
 
     this.route.data.subscribe(data => {
       const userId = data.user.id;
+      this.loading = true;
       this.deckService
         .findAllByUserId(userId)
-        .subscribe(decks => this.decks = decks);
+        .subscribe(decks => {
+          this.loading = false;
+          this.decks = decks;
+        });
     });
   }
 

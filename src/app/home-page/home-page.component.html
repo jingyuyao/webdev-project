@@ -8,5 +8,6 @@
     matInput type="text" placeholder="Search by deck title"
     [formControl]="searchInput" autocomplete="off">
 </mat-form-field>
-<mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+<mat-progress-bar mode="indeterminate" *ngIf="loading">
+</mat-progress-bar>
 <app-deck-list [decks]="decks" [edit]="false"></app-deck-list>

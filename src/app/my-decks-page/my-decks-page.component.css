@@ -1,10 +1,11 @@
 form {
   align-items: center;
   display: flex;
+  flex-wrap: wrap;
 }
 
-.title-field {
-  margin: 0 10px;
+mat-form-field {
+  margin-right: 10px;
 }
 
 .description-field {

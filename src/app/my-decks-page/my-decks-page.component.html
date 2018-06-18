@@ -17,7 +17,7 @@
       </mat-option>
     </mat-select>
   </mat-form-field>
-  <mat-form-field class="title-field">
+  <mat-form-field>
     <input
       matInput type="text" placeholder="Title"
       formControlName="title">
@@ -33,4 +33,6 @@
     Create deck
   </button>
 </form>
+<mat-progress-bar mode="indeterminate" *ngIf="loading">
+</mat-progress-bar>
 <app-deck-list [decks]="decks" [edit]="true"></app-deck-list>
