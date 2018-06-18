@@ -17,9 +17,11 @@
     <mat-icon>person</mat-icon>
   </a>
   <button
-    mat-icon-button color="warn"
+    mat-icon-button
+    color="warn"
     matTooltip="Logout"
-    *ngIf="loggedIn" (click)="logOut()">
+    *ngIf="loggedIn"
+    (click)="logOut()">
     <mat-icon>exit_to_app</mat-icon>
   </button>
   <a
