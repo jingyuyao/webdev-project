@@ -29,7 +29,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.userSubscription = this.userService.currentUser().subscribe(
-      user => this.isAdmin = user.roles.includes(Role.ADMIN),
+      user => this.isAdmin = user && user.roles.includes(Role.ADMIN),
     );
 
     this.searchInput.valueChanges.pipe(
