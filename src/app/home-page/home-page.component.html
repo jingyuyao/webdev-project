@@ -10,4 +10,4 @@
 </mat-form-field>
 <mat-progress-bar mode="indeterminate" *ngIf="loading">
 </mat-progress-bar>
-<app-deck-list [decks]="decks" [edit]="false"></app-deck-list>
+<app-deck-list [decks]="decks" [edit]="isAdmin"></app-deck-list>
