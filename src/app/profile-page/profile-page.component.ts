@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material';
 
-import { User } from '../models/user.model';
+import { User, Role } from '../models/user.model';
 import { UserService } from '../services/user.service';
 import { IdentityService } from '../services/identity.service';
 
@@ -29,6 +29,7 @@ export class ProfilePageComponent implements OnInit {
     this.userForm = this.fb.group({
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
+      role: ['NONE'],
     });
 
     this.route.data.subscribe(data => {
@@ -36,15 +37,20 @@ export class ProfilePageComponent implements OnInit {
       this.userForm.setValue({
         name: this.user.name,
         email: this.user.email,
+        role: this.user.roles.includes(Role.ADMIN) ? 'ADMIN' : 'NONE',
       });
     });
   }
 
   updateUser() {
     this.snackBar.open('Updating profile...');
+    const formValue = this.userForm.value;
     const updatedUser = {
       ...this.user,
-      ...this.userForm.value,
+      name: formValue.name,
+      email: formValue.email,
+      // A bit hacky but it works.
+      roles: formValue.role === 'ADMIN' ? [Role.ADMIN] : [],
     };
     this.userService.updateProfile(updatedUser).subscribe(
       () => this.snackBar.open('Profile updated', '', {duration: 1000}),
