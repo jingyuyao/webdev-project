@@ -1,6 +1,9 @@
-table {
+:host {
   display: block;
   overflow-x: auto;
   white-space: nowrap;
+}
+
+table {
   width: 100%;
 }
