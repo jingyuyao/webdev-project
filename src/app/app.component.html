@@ -16,17 +16,9 @@
     routerLinkActive="hidden">
     <mat-icon>person</mat-icon>
   </a>
-  <button
-    mat-icon-button
-    color="warn"
-    matTooltip="Logout"
-    *ngIf="loggedIn"
-    (click)="logOut()">
-    <mat-icon>exit_to_app</mat-icon>
-  </button>
   <a
     mat-raised-button
-    color="primary"
+    color="accent"
     *ngIf="loggedIn"
     routerLink="/my-decks"
     routerLinkActive="hidden">

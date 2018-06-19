@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material';
 
 import { User } from '../models/user.model';
 import { UserService } from '../services/user.service';
+import { IdentityService } from '../services/identity.service';
 
 @Component({
   selector: 'app-profile-page',
@@ -16,10 +17,12 @@ export class ProfilePageComponent implements OnInit {
   userForm: FormGroup;
 
   constructor(
+    private router: Router,
     private route: ActivatedRoute,
     private fb: FormBuilder,
     private snackBar: MatSnackBar,
     private userService: UserService,
+    private identityService: IdentityService,
   ) { }
 
   ngOnInit() {
@@ -48,5 +51,10 @@ export class ProfilePageComponent implements OnInit {
       () => this.snackBar.open(
         'Unable to update deck', '', {duration: 1000}),
     );
+  }
+
+  logOut() {
+    this.identityService.logOut();
+    this.router.navigate(['/']);
   }
 }

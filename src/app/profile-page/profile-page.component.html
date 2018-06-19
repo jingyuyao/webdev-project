@@ -14,11 +14,21 @@
       matInput type="text" placeholder="Email"
       formControlName="email">
   </mat-form-field>
-  <button
-    type="submit" mat-raised-button color="primary"
-    [disabled]="userForm.invalid">
-    Update profile
-  </button>
+  <div>
+    <button
+      mat-raised-button
+      type="submit"
+      color="primary"
+      [disabled]="userForm.invalid">
+      Update profile
+    </button>
+    <button
+      mat-button
+      color="warn"
+      (click)="logOut()">
+      Logout
+    </button>
+  </div>
 </form>
 <ng-template #loading>
   <div>Loading profile...</div>
